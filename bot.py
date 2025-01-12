@@ -1,5 +1,3 @@
-from sys import exit
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -43,16 +41,18 @@ while not isComplete:
 
         #I will try and be logged-in in advance
 
+        '''uncomment if purchase has never been made before
         # fill in card cvv
         cvvField = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".summary-tile__cvv-code-input"))
         )
         cvvField.send_keys(info.cvv)
+        '''
         print("Attempting to place order")
 
         # place order
         placeOrderBtn = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".btn-primary"))
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[2]/div/div[2]/div[1]/div[1]/main/div[3]/div[1]/div/div[3]/section/div/div/button"))
         )
         placeOrderBtn.click()
 
@@ -61,14 +61,13 @@ while not isComplete:
         )
 
         isComplete = True
-    except:
+    except Exception as e:
         # make sure this link is the same as the link passed to driver.get() before looping
         driver.get(info.RTXLINK1)
-        print("Error - restarting bot")
+        print(f"Error - {e}")
         continue
 
 print("Order successfully placed")
-selenium_object.quit()
 
 
 

@@ -19,10 +19,6 @@ class SeleniumDriver(object):
             self.driver.switch_to.window(window_handle)
             self.driver.close()
 
-    def quit(self):
-        self.close_all()
-        self.driver.quit()
-
     def login(self, email, password):
         self.driver.get("https://www.bestbuy.com/identity/global/signin")
         #involves checkbox selection
