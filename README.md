@@ -17,7 +17,6 @@
   - `pip install undetected_chromedriver`
 - [Google Chrome](https://www.google.com/chrome/)
 - [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)
-  - Update path in selenium_driver.py
 
 ## Running the Bot
 1. Rename ex.info.py to info.py
