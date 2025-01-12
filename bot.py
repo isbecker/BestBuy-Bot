@@ -6,15 +6,13 @@ from selenium.webdriver.support import expected_conditions as EC
 import info
 
 # make sure this path is correct
-PATH = "C:\Program Files (x86)\ChromeDriver\chromedriver.exe"
+PATH = "C:\Program Files\ChromeDriver\chromedriver.exe"
 
 driver = webdriver.Chrome(PATH)
 
-RTX3070LINK1 = "https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442"
-RTX3070LINK2 = "https://www.bestbuy.com/site/gigabyte-geforce-rtx-3070-8g-gddr6-pci-express-4-0-graphics-card-black/6437912.p?skuId=6437912"
-XBOXONETEST = "https://www.bestbuy.com/site/microsoft-xbox-one-s-1tb-console-bundle-white/6415222.p?skuId=6415222"
+RTX5070tiLINK1 = "https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442"
 
-driver.get(RTX3070LINK1)
+driver.get(RTX5007tiLINK1)
 
 isComplete = False
 
@@ -38,10 +36,13 @@ while not isComplete:
         driver.get("https://www.bestbuy.com/cart")
 
         checkoutBtn = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/main/div/div[2]/div[1]/div/div/span/div/div[2]/div[1]/section[2]/div/div/div[3]/div/div[1]/button"))
+             EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/main/div/div[2]/div/div[1]/div/div[1]/div[1]/section[2]/div/div/div[3]/div/div[1]/button"))
+            #EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/main/div/div[2]/div[1]/div/div/span/div/div[2]/div[1]/section[2]/div/div/div[3]/div/div[1]/button"))
         )
         checkoutBtn.click()
         print("Successfully added to cart - beginning check out")
+
+        #I will try and be logged-in in advance
 
         # fill in email and password
         emailField = WebDriverWait(driver, 10).until(
@@ -63,21 +64,21 @@ while not isComplete:
 
         # fill in card cvv
         cvvField = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "credit-card-cvv"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".summary-tile__cvv-code-input"))
         )
         cvvField.send_keys(info.cvv)
         print("Attempting to place order")
 
         # place order
         placeOrderBtn = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".button__fast-track"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".btn-primary"))
         )
         placeOrderBtn.click()
 
         isComplete = True
     except:
         # make sure this link is the same as the link passed to driver.get() before looping
-        driver.get(RTX3070LINK1)
+        driver.get(RTX5070tiLINK1)
         print("Error - restarting bot")
         continue
 

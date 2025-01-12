@@ -1,3 +1,3 @@
-email = "enter email here"
-password = "enter password here"
-cvv = "enter cvv here"
+email = "aeg143@scarletmail.rutgers.edu"
+password = "wxbpRK76tL6tBm"
+cvv = "684"
