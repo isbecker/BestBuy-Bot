@@ -41,18 +41,17 @@ while not isComplete:
 
         #I will try and be logged-in in advance
 
-        '''uncomment if purchase has never been made before
         # fill in card cvv
         cvvField = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".summary-tile__cvv-code-input"))
         )
         cvvField.send_keys(info.cvv)
-        '''
+        
         print("Attempting to place order")
 
         # place order
         placeOrderBtn = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[2]/div/div[2]/div[1]/div[1]/main/div[3]/div[1]/div/div[3]/section/div/div/button"))
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[2]/div/div[2]/div[1]/div[1]/main/div[3]/div[1]/div/div[4]/section/div/div/div[2]/div/button"))
         )
         placeOrderBtn.click()
 
