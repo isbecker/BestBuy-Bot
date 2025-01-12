@@ -13,7 +13,7 @@
 	- `pip install selenium`
 - [Google Chrome](https://www.google.com/chrome/)
 - [ChromeDriver](https://chromedriver.chromium.org/downloads)
-	- Extract the compressed chromedriver executable to a driectory of your choice (be sure to update the path in bot.py accordingly)
+	- Extract the compressed chromedriver executable to a driectory of your choice (be sure to update the path in selenium-driver.py accordingly)
 		- For the Windows machine I developed this on, I chose `C:\Program Files\ChromeDriver\chromedriver.exe`
 
 ## Running the Bot

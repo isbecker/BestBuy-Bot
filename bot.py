@@ -1,18 +1,18 @@
+from sys import exit
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 import info
+from selenium_driver import SeleniumDriver
 
-# make sure this path is correct
-PATH = "C:\Program Files\ChromeDriver\chromedriver.exe"
+selenium_object = SeleniumDriver()
+selenium_object.login(info.email, info.password)
 
-driver = webdriver.Chrome(PATH)
-
-RTX5070tiLINK1 = "https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442"
-
-driver.get(RTX5007tiLINK1)
+driver = selenium_object.driver
+driver.get(info.RTXLINK1)
 
 isComplete = False
 
@@ -37,30 +37,11 @@ while not isComplete:
 
         checkoutBtn = WebDriverWait(driver, 10).until(
              EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/main/div/div[2]/div/div[1]/div/div[1]/div[1]/section[2]/div/div/div[3]/div/div[1]/button"))
-            #EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/main/div/div[2]/div[1]/div/div/span/div/div[2]/div[1]/section[2]/div/div/div[3]/div/div[1]/button"))
         )
         checkoutBtn.click()
         print("Successfully added to cart - beginning check out")
 
         #I will try and be logged-in in advance
-
-        # fill in email and password
-        emailField = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "fld-e"))
-        )
-        emailField.send_keys(info.email)
-
-        pwField = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "fld-p1"))
-        )
-        pwField.send_keys(info.password)
-
-        # click sign in button
-        signInBtn = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/section/main/div[1]/div/div/div/div/form/div[3]/button"))
-        )
-        signInBtn.click()
-        print("Signing in")
 
         # fill in card cvv
         cvvField = WebDriverWait(driver, 10).until(
@@ -78,11 +59,12 @@ while not isComplete:
         isComplete = True
     except:
         # make sure this link is the same as the link passed to driver.get() before looping
-        driver.get(RTX5070tiLINK1)
+        driver.get(info.RTXLINK1)
         print("Error - restarting bot")
         continue
 
 print("Order successfully placed")
+selenium_object.quit()
 
 
 
