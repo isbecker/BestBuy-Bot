@@ -56,6 +56,10 @@ while not isComplete:
         )
         placeOrderBtn.click()
 
+        WebDriverWait(driver, 120).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".thank-you-enhancement__info"))
+        )
+
         isComplete = True
     except:
         # make sure this link is the same as the link passed to driver.get() before looping
