@@ -11,6 +11,10 @@
 ## Dependencies
 - Selenium
 	- `pip install selenium`
+- Setuptools
+  - `pip install setuptools`
+- undetected_chromedriver
+  - `pip install undetected_chromedriver`
 - [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)
   - Update path in selenium_driver.py
 

@@ -10,14 +10,7 @@ class SeleniumDriver(object):
     def __init__(
         self,
     ):
-        options = webdriver.ChromeOptions()
-        options.add_argument("--disable-blink-features")
-        options.add_argument("--disable-extensions")
-
-        service = Service(executable_path=r"C:\Program Files\ChromeDriver\chromedriver.exe")
-
-        self.driver = webdriver.Chrome(service=service,options=options)
-
+        self.driver = uc.Chrome(headless=False)
     def close_all(self):
         # close all open tabs
         if len(self.driver.window_handles) < 1:
