@@ -15,6 +15,7 @@
   - `pip install setuptools`
 - undetected_chromedriver
   - `pip install undetected_chromedriver`
+- [Google Chrome](https://www.google.com/chrome/)
 - [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)
   - Update path in selenium_driver.py
 
