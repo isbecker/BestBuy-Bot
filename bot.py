@@ -17,7 +17,7 @@ isComplete = False
 while not isComplete:
     # find add to cart button
     try:
-        atcBtn = WebDriverWait(driver, 10).until(
+        atcBtn = WebDriverWait(driver, 6).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, ".add-to-cart-button"))
         )
     except:
@@ -29,6 +29,8 @@ while not isComplete:
     try:
         # add to cart
         atcBtn.click()
+
+        time.sleep(300)
 
         # go to cart and begin checkout as guest
         driver.get("https://www.bestbuy.com/cart")
@@ -64,6 +66,7 @@ while not isComplete:
         # make sure this link is the same as the link passed to driver.get() before looping
         driver.get(info.RTXLINK1)
         print(f"Error - {e}")
+        input("Press Enter to continue...")
         continue
 
 print("Order successfully placed")
