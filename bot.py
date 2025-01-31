@@ -6,6 +6,19 @@ from selenium.webdriver.support import expected_conditions as EC
 import info
 from selenium_driver import SeleniumDriver
 
+from plyer import notification
+
+import time
+
+def notify() :
+    notification.notify (
+        title="!!!!!!!!",
+        message="MANUAL INPUT REQUIRED",
+        app_name="RTX BOT",
+        timeout=10
+    )
+
+
 selenium_object = SeleniumDriver()
 selenium_object.login(info.email, info.password)
 
@@ -13,6 +26,9 @@ driver = selenium_object.driver
 driver.get(info.RTXLINK1)
 
 isComplete = False
+
+notify()
+input("Press Enter to continue...")
 
 while not isComplete:
     # find add to cart button
@@ -30,7 +46,7 @@ while not isComplete:
         # add to cart
         atcBtn.click()
 
-        time.sleep(300)
+        time.sleep(100)
 
         # go to cart and begin checkout as guest
         driver.get("https://www.bestbuy.com/cart")
@@ -66,6 +82,7 @@ while not isComplete:
         # make sure this link is the same as the link passed to driver.get() before looping
         driver.get(info.RTXLINK1)
         print(f"Error - {e}")
+        notify()
         input("Press Enter to continue...")
         continue
 
