@@ -12,21 +12,42 @@
 
 ## Dependencies
 
-- Selenium
-  - `pip install selenium`
-- Setuptools
-  - `pip install setuptools`
-- undetected_chromedriver
-  - `pip install undetected_chromedriver`
-- plyer
-  - `pip install plyer`
+- [Rye](https://rye.astral.sh/)
+
+  - Comes with the flake if you use it
+
+- [Just](https://github.com/casey/just)
+
+  - Comes with the flake if you use it
+
 - [Google Chrome](https://www.google.com/chrome/)
+
 - [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)
 
 ## Running the Bot
 
-1. Rename ex.info.py to info.py
-1. Edit the info.py file with your Best Buy account email and password and cvv for the card on the account
-1. Navigate to your project directory and run the bot.py script from your preferred environment
-1. Feel free to change the Best Buy links in the bot.py file to any item on bestbuy.com
-   - **NOTE:** From testing it appears that it depends on the price of the item wheter or not the cvv number is asked for. If you plan to use this bot for something cheaper you may need to remove/comment the segment of code detecting and filling in the cvv field.
+1. Create a `config.yaml` file in the root directory of the project
+
+1. Add the following to the `config.yaml` file:
+
+   ```yaml
+    email: "your_best_buy_email"
+    password: "your_best_buy_password"
+    cvv: "your_card_cvv"
+    rtx_links:
+    - https://www.bestbuy.com/site/card-name-goes-here/00000000.p?skuId=00000000
+    - https://www.bestbuy.com/site/card-name-goes-here/00000000.p?skuId=00000000
+    - https://www.bestbuy.com/site/card-name-goes-here/00000000.p?skuId=00000000
+   ```
+
+   The bot will go through the list one-by-one and check each of them to see if they
+   are currently available to `Add to Cart`. If one of the links is available, the bot
+   will proceed to checkout.
+
+1. Run the bot with the following command:
+
+   ```bash
+   just run
+   ```
+
+> **💡 NOTE:** From testing, it appears that whether or not the CVV number is asked for depends on the price of the item. If you plan to use this bot for something cheaper, you may need to remove or comment out the segment of code that detects and fills in the CVV field. 🛠️
