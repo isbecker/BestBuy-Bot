@@ -1,0 +1,17 @@
+[formatter.rye]
+command = "rye"
+options = ["fmt"]
+includes = ["*.py", "*.pyi"]
+
+[formatter.md]
+command = "mdformat"
+includes = ["*.md"]
+
+[formatter.nix]
+command = "nixpkgs-fmt"
+includes = ["*.nix"]
+
+[formatter.toml]
+command = "taplo"
+options = ["fmt"]
+includes = ["*.toml", "*.editorconfig"]

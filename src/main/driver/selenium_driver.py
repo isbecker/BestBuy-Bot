@@ -1,16 +1,15 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 import undetected_chromedriver as uc
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 class SeleniumDriver(object):
     def __init__(
         self,
     ):
         self.driver = uc.Chrome(headless=False)
+
     def close_all(self):
         # close all open tabs
         if len(self.driver.window_handles) < 1:
@@ -21,7 +20,7 @@ class SeleniumDriver(object):
 
     def login(self, email, password):
         self.driver.get("https://www.bestbuy.com/identity/global/signin")
-        #involves checkbox selection
+        # involves checkbox selection
         # fill in email and password
         emailField = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.ID, "fld-e"))
@@ -30,14 +29,24 @@ class SeleniumDriver(object):
 
         # check "Keep me signed in." box
         kmBox = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/section/main/div[2]/div/div/div[1]/div/div/div/div/div/form/div[2]/div/span/input"))
+            EC.presence_of_element_located(
+                (
+                    By.XPATH,
+                    "/html/body/div[1]/div/section/main/div[2]/div/div/div[1]/div/div/div/div/div/form/div[2]/div/span/input",
+                )
+            )
         )
         if not kmBox.is_selected():
             kmBox.click()
 
         # click Continue button
         cntBtn = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/section/main/div[2]/div/div/div[1]/div/div/div/div/div/form/div[3]/button"))
+            EC.presence_of_element_located(
+                (
+                    By.XPATH,
+                    "/html/body/div[1]/div/section/main/div[2]/div/div/div[1]/div/div/div/div/div/form/div[3]/button",
+                )
+            )
         )
         cntBtn.click()
 
@@ -54,10 +63,14 @@ class SeleniumDriver(object):
 
         # click Continue button
         signInBtn = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/section/main/div[2]/div/div/div[1]/div/div/div/div/div/form/div[3]/button[1]"))
+            EC.presence_of_element_located(
+                (
+                    By.XPATH,
+                    "/html/body/div[1]/div/section/main/div[2]/div/div/div[1]/div/div/div/div/div/form/div[3]/button[1]",
+                )
+            )
         )
         signInBtn.click()
-        print("Signing in")
 
         # waiting to return to homepage
         WebDriverWait(self.driver, 10).until(

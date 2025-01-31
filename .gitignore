@@ -1,2 +1,16 @@
-info.py
 *.pk1
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+.DS_Store
+
+.venv/
+.direnv/
+.devenv/
+
+
+.pre-commit-config.yaml
+config.yaml
