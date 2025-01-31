@@ -15,6 +15,8 @@
   - `pip install setuptools`
 - undetected_chromedriver
   - `pip install undetected_chromedriver`
+- plyer
+  - `pip install plyer`
 - [Google Chrome](https://www.google.com/chrome/)
 - [ChromeDriver](https://googlechromelabs.github.io/chrome-for-testing/)
 
