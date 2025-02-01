@@ -39,7 +39,22 @@ class Bot:
 
         # Track which URL we're on:
         self.url_index = 0
-        self.total_urls = len(self.config.rtx_links)
+        self.weighted_urls = self._generate_weighted_urls()
+
+    def _generate_weighted_urls(self):
+        """Generate a list of URLs based on their weights."""
+        weighted_urls = []
+        for link_config in self.config.links:
+            weighted_urls.extend([link_config.url] * link_config.weight)
+
+        # Ensure the URLs are ordered correctly based on their weights
+        ordered_urls = []
+        while weighted_urls:
+            for link_config in self.config.links:
+                if link_config.url in weighted_urls:
+                    ordered_urls.append(link_config.url)
+                    weighted_urls.remove(link_config.url)
+        return ordered_urls
 
     def run(self):
         while self.state != BotState.COMPLETE:
@@ -72,8 +87,8 @@ class Bot:
             self.state = BotState.COMPLETE
             return
 
-        for _ in range(self.total_urls):
-            self.driver.get(self.config.rtx_links[self.url_index])
+        for _ in range(len(self.weighted_urls)):
+            self.driver.get(self.weighted_urls[self.url_index])
             try:
                 logging.info(f"Attempting to add to cart for URL #{self.url_index}")
                 atcBtn = WebDriverWait(self.driver, 5).until(
@@ -86,7 +101,7 @@ class Bot:
                 return
             except TimeoutException as e:
                 logging.error(f"Timeout adding to cart for URL #{self.url_index}: {e}")
-                self.url_index = (self.url_index + 1) % self.total_urls
+                self.url_index = (self.url_index + 1) % len(self.weighted_urls)
 
     def checkout(self):
         """Attempts to start the checkout process."""
@@ -95,7 +110,7 @@ class Bot:
             self.state = BotState.COMPLETE
             return
 
-        for _ in range(self.total_urls):
+        for _ in range(len(self.weighted_urls)):
             self.driver.get("https://www.bestbuy.com/cart")
             try:
                 logging.info(f"Attempting to checkout for URL #{self.url_index}")
@@ -113,7 +128,7 @@ class Bot:
                 return
             except Exception as e:
                 logging.error(f"Error during checkout for URL #{self.url_index}: {e}")
-                self.url_index = (self.url_index + 1) % self.total_urls
+                self.url_index = (self.url_index + 1) % len(self.weighted_urls)
 
     def place_order(self):
         """Attempt to place the order for the current URL's product."""
@@ -122,8 +137,8 @@ class Bot:
             self.state = BotState.COMPLETE
             return
 
-        for _ in range(self.total_urls):
-            self.driver.get(self.config.rtx_links[self.url_index])
+        for _ in range(len(self.weighted_urls)):
+            self.driver.get(self.weighted_urls[self.url_index])
             try:
                 logging.info(f"Attempting to place order for URL #{self.url_index}")
                 cvvField = WebDriverWait(self.driver, 10).until(
@@ -159,7 +174,7 @@ class Bot:
                 logging.error(
                     f"Error during placing order for URL #{self.url_index}: {e}"
                 )
-                self.url_index = (self.url_index + 1) % self.total_urls
+                self.url_index = (self.url_index + 1) % len(self.weighted_urls)
 
 
 def run(config: InfoConfig = config, desired_end_state: BotState = BotState.COMPLETE):
