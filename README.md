@@ -12,6 +12,10 @@
 
 ## Dependencies
 
+- [Nix](https://nixos.org/download.html)
+
+  - [Nix Flake](https://nixos.wiki/wiki/Flakes)
+
 - [Rye](https://rye.astral.sh/)
 
   - Comes with the flake if you use it
