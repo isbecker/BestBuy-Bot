@@ -8,7 +8,7 @@ class SeleniumDriver(object):
     def __init__(
         self,
     ):
-        self.driver = uc.Chrome(headless=False)
+        self.driver = uc.Chrome(headless=False, version_main=132)
 
     def close_all(self):
         # close all open tabs

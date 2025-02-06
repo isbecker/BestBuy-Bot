@@ -3,10 +3,16 @@ default:
 
 sync:
   rye sync
-install PKG:
-  rye install $PKG
-add PKG:
-  rye add $PKG
+install pkg:
+  rye install {{pkg}}
+add pkg:
+  rye add {{pkg}}
+upgrade pkg:
+  rye sync --update {{pkg}}
+remove pkg:
+  rye remove {{pkg}}
+up:
+  rye sync --update-all
 run:
   rye run main
 fmt:

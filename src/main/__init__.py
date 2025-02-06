@@ -10,7 +10,7 @@ logging.basicConfig(
 
 def main() -> int:
     try:
-        run(config, BotState.COMPLETE)
+        run(config, BotState.PLACE_ORDER)
     except KeyboardInterrupt:
         logging.info("Exiting bot due to keyboard interrupt.")
         return 1

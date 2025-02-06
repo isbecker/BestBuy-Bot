@@ -1,0 +1,22 @@
+email: ${oc.env:BOT_EMAIL}
+password: ${oc.env:BOT_PASSWORD}
+cvv: ${oc.env:BOT_CVV}
+links:
+# 5090s
+## Founders Edition
+- url: https://www.bestbuy.com/site/nvidia-geforce-rtx-5090-32gb-gddr7-graphics-card-dark-gun-metal/6614151.p?skuId=6614151
+  weight: 4
+## Others
+- url: https://www.bestbuy.com/site/asus-tuf-gaming-nvidia-geforce-rtx-5090-32gb-gddr7-pci-express-5-0-graphics-card-black/6614119.p?skuId=6614119
+  weight: 3
+- url: https://www.bestbuy.com/site/gigabyte-nvidia-geforce-rtx-5090-windforce-oc-32g-gddr7-pci-express-5-0-graphics-card-black/6615930.p?skuId=6615930
+  weight: 3
+# 5080s
+## Founders Edition
+- url: https://www.bestbuy.com/site/nvidia-geforce-rtx-5080-16gb-gddr7-graphics-card-gun-metal/6614153.p?skuId=6614153
+  weight: 2
+## Others
+- url: https://www.bestbuy.com/site/gigabyte-nvidia-geforce-rtx-5080-windforce-oc-sff-16g-gddr7-pci-express-5-0-graphics-card-black/6616102.p?skuId=6616102
+  weight: 1
+- url: https://www.bestbuy.com/site/asus-prime-nvidia-geforce-rtx-5080-16gb-gddr7-pci-express-5-0-graphics-card-black/6615831.p?skuId=6615831
+  weight: 1

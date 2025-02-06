@@ -4,6 +4,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.log
+dist/
 
 .DS_Store
 
@@ -13,4 +14,4 @@ __pycache__/
 
 
 .pre-commit-config.yaml
-config.yaml
+.env*

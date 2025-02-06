@@ -25,11 +25,6 @@
         devenv.shells.default = {
           name = "python-project";
 
-          dotenv = {
-            enable = true;
-            filename = ".env.local";
-          };
-
           languages.python = {
             enable = true;
           };
@@ -49,12 +44,12 @@
             };
           };
 
-          packages = [
+          packages = with pkgs; [
             config.packages.default
-            pkgs.python3Packages.pip
-            pkgs.rye
-            pkgs.just
-            pkgs.ungoogled-chromium
+            python3Packages.pip
+            rye
+            just
+            ungoogled-chromium
           ];
         };
       };
