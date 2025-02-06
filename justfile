@@ -13,7 +13,7 @@ remove pkg:
   rye remove {{pkg}}
 up:
   rye sync --update-all
-run:
+run: sync
   rye run main
 fmt:
   rye fmt
