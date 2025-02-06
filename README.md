@@ -45,6 +45,10 @@ CHROMIUM_VERSION=desired_chromium_version
 LOG_LEVEL=INFO
 ```
 
+### Using Environment Variables in `config.yaml` with OmegaConf 🛠️
+
+This project uses [OmegaConf](https://omegaconf.readthedocs.io/) for configuration management. The default `config.yaml` file uses this feature to reference environment variables. You can see an example in the next section.
+
 ## Running the Bot
 
 1. Create a `config.yaml` file in the root directory of the project
@@ -52,9 +56,9 @@ LOG_LEVEL=INFO
 1. Add the following to the `config.yaml` file:
 
    ```yaml
-    email: "your_best_buy_email"
-    password: "your_best_buy_password"
-    cvv: "your_card_cvv"
+    email: "${oc.env:BOT_EMAIL}"
+    password: "${oc.env:BOT_PASSWORD}"
+    cvv: "${oc.env:BOT_CVV}"
     chromium:
       version: 132  # Add your desired Chromium version here, optional
     links:
