@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 from enum import Enum, auto
 
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -40,10 +40,10 @@ class Bot:
     def run(self):
         while self.state != BotState.COMPLETE:
             if self.state == self.desired_end_state:
-                logging.info(f"Reached desired end state: {self.desired_end_state}")
+                logger.info(f"Reached desired end state: {self.desired_end_state}")
                 break
 
-            logging.info(f"Current state: {self.state}")
+            logger.info(f"Current state: {self.state}")
 
             if self.state == BotState.NOT_STARTED:
                 self.transition_to_state(BotState.LOGIN)
@@ -57,12 +57,12 @@ class Bot:
                 self.place_order()
 
     def transition_to_state(self, new_state: BotState):
-        logging.info(f"Transitioning from {self.state} to {new_state}.")
+        logger.info(f"Transitioning from {self.state} to {new_state}.")
         self.state = new_state
 
     def login(self):
         """Logs in, then transitions to adding to cart."""
-        logging.info("Logging in")
+        logger.info("Logging in")
         self.selenium_object.login(self.config.email, self.config.password)
         self.transition_to_state(BotState.ADD_TO_CART)
 
@@ -74,7 +74,7 @@ class Bot:
         then wait for its add-to-cart button (which must be enabled) before clicking.
         """
         if self.item_already_bought:
-            logging.info("An item was already bought. Skipping purchase steps.")
+            logger.info("An item was already bought. Skipping purchase steps.")
             self.transition_to_state(BotState.COMPLETE)
             return
 
@@ -86,7 +86,7 @@ class Bot:
             else "https://www.bestbuy.com/site/customer/lists/manage/saveditems"
         )
         self.driver.get(saved_items_url)
-        logging.info(f"Navigated to saved items page: {saved_items_url}")
+        logger.info(f"Navigated to saved items page: {saved_items_url}")
 
         try:
             # Wait until the saved items panel is visible.
@@ -95,7 +95,7 @@ class Bot:
                     (By.ID, "saveditems-recentlyviewed-tabpanel")
                 )
             )
-            logging.info("Saved items panel loaded.")
+            logger.info("Saved items panel loaded.")
 
             # Wait until the saved items are loaded inside the panel.
             WebDriverWait(self.driver, 10).until(
@@ -106,13 +106,13 @@ class Bot:
                     )
                 )
             )
-            logging.info("Saved items loaded inside the panel.")
+            logger.info("Saved items loaded inside the panel.")
 
             # Find all saved item cards.
             saved_items = saved_items_panel.find_elements(
                 By.CSS_SELECTOR, "li.grid-card"
             )
-            logging.info(f"Found {len(saved_items)} saved item(s).")
+            logger.info(f"Found {len(saved_items)} saved item(s).")
 
             # Build a list of priority URLs from your configuration.
             sorted_links = sorted(
@@ -139,54 +139,54 @@ class Bot:
                     if atc_button.is_enabled():
                         item_elements[item_url] = atc_button
                     else:
-                        logging.info(
+                        logger.info(
                             f"Item {item_url} add-to-cart button is not enabled."
                         )
                 except TimeoutException:
-                    logging.info(
+                    logger.info(
                         "Item details not fully loaded or add-to-cart button not clickable."
                     )
                 except Exception as e:
-                    logging.error(f"Error processing saved item: {e}")
+                    logger.error(f"Error processing saved item: {e}")
 
             # Check items based on priority ordering
             for index, item_url in enumerate(priority_urls):
                 if item_url in item_elements:
                     atc_button = item_elements[item_url]
-                    logging.info(f"Checking item {index+1}: {item_url}")
+                    logger.info(f"Checking item {index+1}: {item_url}")
 
                     try:
                         atc_button.click()
-                        logging.info(f"Item {index+1}: Add-to-cart button clicked.")
+                        logger.info(f"Item {index+1}: Add-to-cart button clicked.")
                         self.transition_to_state(BotState.CHECKOUT)
                         return  # Exit after a successful click.
                     except Exception as e:
-                        logging.error(
+                        logger.error(
                             f"Error clicking add-to-cart button for item {index+1}: {e}"
                         )
 
-            logging.info("No available saved items could be added to cart.")
+            logger.info("No available saved items could be added to cart.")
         except TimeoutException as e:
-            logging.error(f"Saved items panel did not load in time: {e}")
+            logger.error(f"Saved items panel did not load in time: {e}")
 
     def checkout(self):
         """Attempts to start the checkout process."""
         if self.item_already_bought:
-            logging.info("An item was already bought. Skipping purchase steps.")
+            logger.info("An item was already bought. Skipping purchase steps.")
             self.transition_to_state(BotState.COMPLETE)
             return
 
         # Proceed to the cart page to checkout.
         self.driver.get("https://www.bestbuy.com/cart")
         try:
-            logging.info("Attempting to checkout.")
+            logger.info("Attempting to checkout.")
             # Check if the cart is empty
             cart_app = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "cartApp"))
             )
             cart_items = cart_app.find_elements(By.CSS_SELECTOR, "ul.item-list li")
             if not cart_items:
-                logging.info("Cart is empty. Returning to saved items page.")
+                logger.info("Cart is empty. Returning to saved items page.")
                 self.transition_to_state(BotState.ADD_TO_CART)
                 return
 
@@ -199,21 +199,21 @@ class Bot:
                 )
             )
             checkoutBtn.click()
-            logging.info("Checkout button clicked. Transitioning to PLACE_ORDER state.")
+            logger.info("Checkout button clicked. Transitioning to PLACE_ORDER state.")
             self.transition_to_state(BotState.PLACE_ORDER)
         except Exception as e:
-            logging.error(f"Error during checkout: {e}")
+            logger.error(f"Error during checkout: {e}")
 
     def place_order(self):
         """Attempt to place the order for the current product."""
         if self.item_already_bought:
-            logging.info("An item was already bought. Skipping purchase steps.")
+            logger.info("An item was already bought. Skipping purchase steps.")
             self.transition_to_state(BotState.COMPLETE)
             return
 
         self.driver.get(self.config.links[0].url)
         try:
-            logging.info("Attempting to place order.")
+            logger.info("Attempting to place order.")
             cvvField = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located(
                     (By.CSS_SELECTOR, ".summary-tile__cvv-code-input")
@@ -239,11 +239,9 @@ class Bot:
 
             self.item_already_bought = True
             self.transition_to_state(BotState.COMPLETE)
-            logging.info(
-                "Order successfully placed. No further purchases will be made."
-            )
+            logger.info("Order successfully placed. No further purchases will be made.")
         except Exception as e:
-            logging.error(f"Error during placing order: {e}")
+            logger.error(f"Error during placing order: {e}")
 
 
 def run(config: InfoConfig = config, desired_end_state: BotState = BotState.COMPLETE):

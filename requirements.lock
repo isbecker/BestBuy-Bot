@@ -25,6 +25,8 @@ h11==0.14.0
 idna==3.10
     # via requests
     # via trio
+loguru==0.7.3
+    # via main
 omegaconf==2.3.0
     # via main
 outcome==1.3.0.post0
