@@ -5,10 +5,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class SeleniumDriver(object):
-    def __init__(
-        self,
-    ):
-        self.driver = uc.Chrome(headless=False, version_main=132)
+    def __init__(self, chromium_version: int = None):
+        if chromium_version:
+            self.driver = uc.Chrome(headless=False, version_main=chromium_version)
+        else:
+            self.driver = uc.Chrome(headless=False)
 
     def close_all(self):
         # close all open tabs

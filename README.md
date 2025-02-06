@@ -42,6 +42,8 @@
     - https://www.bestbuy.com/site/card-name-goes-here/00000000.p?skuId=00000000
     - https://www.bestbuy.com/site/card-name-goes-here/00000000.p?skuId=00000000
     - https://www.bestbuy.com/site/card-name-goes-here/00000000.p?skuId=00000000
+    chromium:
+      version: 132  # Add your desired Chromium version here
    ```
 
    The bot will go through the list one-by-one and check each of them to see if they

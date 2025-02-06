@@ -7,11 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..config import InfoConfig, config
-from ..driver import driver
-
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+from ..driver import SeleniumDriver
 
 
 class BotState(Enum):
@@ -30,11 +26,16 @@ class Bot:
         desired_end_state: BotState = BotState.COMPLETE,
     ):
         self.config = config
-        self.selenium_object = driver
+        self.selenium_object = (
+            SeleniumDriver(chromium_version=config.chromium_version)
+            if config.chromium_version
+            else SeleniumDriver()
+        )  # Handle optional chromium_version
         self.driver = self.selenium_object.driver
         self.state = BotState.NOT_STARTED
         self.desired_end_state = desired_end_state
         self.item_already_bought = False  # Tracks if an item has been fully purchased
+        self.chromium_version = config.chromium_version  # New property
 
     def run(self):
         while self.state != BotState.COMPLETE:

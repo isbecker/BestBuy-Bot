@@ -20,3 +20,6 @@ links:
   weight: 1
 - url: https://www.bestbuy.com/site/asus-prime-nvidia-geforce-rtx-5080-16gb-gddr7-pci-express-5-0-graphics-card-black/6615831.p?skuId=6615831
   weight: 1
+chromium:
+  version: ${oc.env:CHROMIUM_VERSION}
+log_level: ${oc.env:LOG_LEVEL}  # Optional log level, default to INFO

@@ -11,6 +11,8 @@ dist/
 .venv/
 .direnv/
 .devenv/
+.ruff_cache/
+.pytest_cache/
 
 
 .pre-commit-config.yaml

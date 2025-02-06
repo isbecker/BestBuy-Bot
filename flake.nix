@@ -49,7 +49,7 @@
             python3Packages.pip
             rye
             just
-            ungoogled-chromium
+            ungoogled-chromium # TODO: Update Chromium version to 133 when available in nixpkgs
           ];
         };
       };
