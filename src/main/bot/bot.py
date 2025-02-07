@@ -27,15 +27,15 @@ class Bot:
     ):
         self.config = config
         self.selenium_object = (
-            SeleniumDriver(chromium_version=config.chromium_version)
-            if config.chromium_version
+            SeleniumDriver(chromium_version=config.chromium.version)
+            if config.chromium.version
             else SeleniumDriver()
-        )  # Handle optional chromium_version
+        )  # Handle optional chromium.version
         self.driver = self.selenium_object.driver
         self.state = BotState.NOT_STARTED
         self.desired_end_state = desired_end_state
         self.item_already_bought = False  # Tracks if an item has been fully purchased
-        self.chromium_version = config.chromium_version  # New property
+        self.chromium_version = config.chromium.version
 
     def run(self):
         while self.state != BotState.COMPLETE:
