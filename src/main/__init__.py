@@ -5,7 +5,7 @@ from .config import config
 
 log_level = config.log_level.upper()
 logger.remove()
-logger.add(lambda msg: print(msg, end=""), level=log_level)
+logger.add(lambda msg: print(msg, end=""), level=log_level, colorize=True)
 
 
 def obfuscate_sensitive_data(config):
@@ -16,6 +16,7 @@ def obfuscate_sensitive_data(config):
     return obfuscated_config
 
 
+@logger.catch
 def main() -> int:
     logger.info("Starting bot.")
     try:
